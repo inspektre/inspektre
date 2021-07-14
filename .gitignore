@@ -9,3 +9,4 @@ node_modules
 .DS_Store
 .env
 .env.local
+inspektre0inspektre-v*.tgz

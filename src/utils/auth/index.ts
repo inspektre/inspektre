@@ -27,7 +27,7 @@ const startInspektreDevice = async (verbose: Boolean) => {
         interval = 5000;
       }
       resolve({ interval, verification_uri, verification_uri_complete, device_code, user_code, expires_in})
-    } catch(err: any) {
+    } catch(err) {
       reject(err);
     }
   });

@@ -15,11 +15,11 @@ Inspektre CLI
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g inspektre
+$ npm install -g @inspektre/inspektre
 $ inspektre COMMAND
 running command...
 $ inspektre (-v|--version|version)
-inspektre/3.3.20 darwin-x64 node-v14.17.3
+@inspektre/inspektre/3.3.20 darwin-x64 node-v14.17.3
 $ inspektre --help [COMMAND]
 USAGE
   $ inspektre COMMAND
@@ -28,28 +28,9 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`inspektre hello [FILE]`](#inspektre-hello-file)
 * [`inspektre help [COMMAND]`](#inspektre-help-command)
-
-## `inspektre hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ inspektre hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ inspektre hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src/commands/hello.ts](https://github.com/inspektre/inspektre/blob/v3.3.20/src/commands/hello.ts)_
+* [`inspektre init`](#inspektre-init)
+* [`inspektre login`](#inspektre-login)
 
 ## `inspektre help [COMMAND]`
 
@@ -67,4 +48,40 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
+
+## `inspektre init`
+
+initialize inspektre
+
+```
+USAGE
+  $ inspektre init
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose  Verbose output
+
+EXAMPLE
+  $ inspektre init
+```
+
+_See code: [src/commands/init.ts](https://github.com/inspektre/inspektre/blob/v3.3.20/src/commands/init.ts)_
+
+## `inspektre login`
+
+Login to inspektre CLI
+
+```
+USAGE
+  $ inspektre login
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose  Verbose output
+
+EXAMPLE
+  $ inspektre login
+```
+
+_See code: [src/commands/login.ts](https://github.com/inspektre/inspektre/blob/v3.3.20/src/commands/login.ts)_
 <!-- commandsstop -->
