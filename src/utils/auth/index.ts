@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import { homedir } from '../constants';
 import * as open from 'open';
 import got from 'got';
 import cli from 'cli-ux';
@@ -49,7 +48,7 @@ const getDeviceToken = async (verbose: Boolean, deviceCode: string, interval?: n
         }
       };
       const resp: any = await got.post(options).json();
-      resolve(resp);
+      resolve(resp.token);
     } catch(err) {
       reject(err);
     }
@@ -59,13 +58,22 @@ const getDeviceToken = async (verbose: Boolean, deviceCode: string, interval?: n
 // Read Device Token
 const readToken = () => {
   const data: Buffer = fs.readFileSync(credsFile);
-  const { token } = JSON.parse(data.toString()).token;
+  const token  = JSON.parse(data.toString()).token;
+  if(!token) {
+    console.log('Please login to continue');
+    process.exit(1);
+  }
   return token;
 };
 
 // Save Device Token
 const saveToken = (token: string) => {
-  const data = { token, time: new Date().getTime() };
+  const data = { token: token, time: new Date().getTime() };
+  fs.writeFileSync(credsFile, JSON.stringify(data).concat('\n'));
+};
+
+const removeToken = () => {
+  const data = { token: undefined, time: new Date().getTime() };
   fs.writeFileSync(credsFile, JSON.stringify(data).concat('\n'));
 };
 
@@ -89,19 +97,69 @@ export const getAccessToken = async() => {
   });
 };
 
+export const getDeviceRefreshToken = async (verbose: Boolean) => {
+  return await new Promise(async (resolve, reject) => {
+    try {
+      const options: any = {
+        prefixUrl: 'https://inspektre.io/api/cli/devicerefresh',
+        headers: {
+          'user-agent': '@inspektre/cli',
+          'x-inspektre-token': readToken(),
+        }
+      };
+      const resp: any = await got.post(options).json();
+      resolve(resp.refreshToken);
+    } catch(err) {
+      reject(err);
+    }
+  });
+}
+
+export const performDeviceRefresh = async (verbose: Boolean) => {
+  cli.action.start('inspektre logout');
+  const token: any = await getDeviceRefreshToken(verbose);
+  saveToken(token);
+  cli.action.stop();
+};
+
+export const doRevokeToken = async (verbose: Boolean) => {
+  return await new Promise(async(resolve, reject) => {
+    try {
+      const options: any = {
+        prefixUrl: 'https://inspektre.io/api/cli/revoke',
+        headers: {
+          'user-agent': '@inspektre/cli',
+          'x-inspektre-token': readToken(),
+        }
+      };
+      const resp: any = await got.post(options).json();
+      resolve(resp.revoked);
+    } catch(err) {
+      reject(err);
+    }
+  });
+}
+
+export const performDeviceLogout = async (verbose: Boolean) => {
+  const resp = await doRevokeToken(verbose);
+  removeToken();
+}
+
 export const performDeviceLogin = async (headless: Boolean, verbose: Boolean) => {
-  cli.action.start('inspektre login');
   const startDeviceAuth: any = await startInspektreDevice(verbose);
   if(!headless) {
+    cli.action.start('inspektre login');
     await open(startDeviceAuth.verification_uri_complete);
     const deviceToken: any = await getDeviceToken(verbose, startDeviceAuth.device_code, startDeviceAuth.interval);
     saveToken(deviceToken);
-  } else { 
+    cli.action.stop();
+  } else {
     console.log(`To Authorize this device, Please visit: ${startDeviceAuth.verification_uri_complete}`);
     setTimeout(async() => {
+      cli.action.start('inspektre login');
       const deviceToken: any = await getDeviceToken(verbose, startDeviceAuth.device_code, startDeviceAuth.interval);
       saveToken(deviceToken);
+      cli.action.stop();
     }, startDeviceAuth.interval);
   }
-  cli.action.stop();
 };
