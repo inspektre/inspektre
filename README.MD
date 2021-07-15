@@ -1,83 +1,87 @@
-# Inspektre CLI & SDK 
-This is a mono repo for CLI as well as javascript SDK forInspektre Security Graphs.
+inspektre
+=========
 
-## Code Quality
-![CodeQL](https://github.com/inspektre/inspektre/workflows/CodeQL/badge.svg?branch=main)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/inspektre/inspektre.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/inspektre/inspektre/alerts/)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/inspektre/inspektre.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/inspektre/inspektre/context:javascript)
+Inspektre CLI
 
-## Wiki
-`inspektre-cli` Wiki can be found [here](https://github.com/inspektre/inspektre/wiki)
+[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
+[![Version](https://img.shields.io/npm/v/inspektre.svg)](https://npmjs.org/package/inspektre)
+[![Downloads/week](https://img.shields.io/npm/dw/inspektre.svg)](https://npmjs.org/package/inspektre)
+[![License](https://img.shields.io/npm/l/inspektre.svg)](https://github.com/inspektre/inspektre/blob/master/package.json)
 
-## Purpose
-This CLI utility is helpful in performing the following:
-1. Query Inspektre Security Graphs.
-2. Manage projects on Inspektre Platform.
-3. Modify user roles or permissions.
-4. Supress attack patterns or weaknesses or verifications.
-
-`inspektre-cli` is a graphql client that queries to `api.inspektre.io` and query the `inspektre security graphs`. 
-
-
-## Usage 
+<!-- toc -->
+* [Usage](#usage)
+* [Commands](#commands)
+<!-- tocstop -->
+# Usage
+<!-- usage -->
+```sh-session
+$ npm install -g @inspektre/inspektre
+$ inspektre COMMAND
+running command...
+$ inspektre (-v|--version|version)
+@inspektre/inspektre/3.3.20 darwin-x64 node-v14.17.3
+$ inspektre --help [COMMAND]
+USAGE
+  $ inspektre COMMAND
+...
 ```
-Usage: cli [options] [command]
+<!-- usagestop -->
+# Commands
+<!-- commands -->
+* [`inspektre help [COMMAND]`](#inspektre-help-command)
+* [`inspektre init`](#inspektre-init)
+* [`inspektre login`](#inspektre-login)
 
-  _                      _    _                           _ _
- (_)_ __  ___ _ __   ___| | _| |_ _ __ ___            ___| (_)
- | | '_ \/ __| '_ \ / _ \ |/ / __| '__/ _ \  _____   / __| | |
- | | | | \__ \ |_) |  __/   <| |_| | |  __/ |_____| | (__| | |
- |_|_| |_|___/ .__/ \___|_|\_\\__|_|  \___|          \___|_|_|
-             |_|                                               
+## `inspektre help [COMMAND]`
 
-Options:
-  -V, --version          output the version number
-  -h, --help             display help for command
+display help for inspektre
 
-Commands:
-  version                Display the version of Inspektre-CLI in use.
-  init [options]         Initialize Configuration store in the user's home directory
-  authorize [options]    Authorize a Device to interact with Inspektre API
-  reauthorize [options]  Reauthorize a Device to interact with Inspektre API
-  projects [options]     Query for projects created on Inspektre
-  attacks [options]      Query for general attack patterns on Inspektre by Likelihood, Severity, Tag OR Skill Level of a malicious actor
-  weakness [options]     Query for weaknesses recorded on Inspektre by tags.
 ```
+USAGE
+  $ inspektre help [COMMAND]
 
-## Authorize
-Inspektre CLI command `authorize` is  *Device Authorization Grant* as specified in OAuth 2.0 RFC 8628 located [here](https://tools.ietf.org/html/rfc8628).
-- To Authorize a device, run `inspektre-cli authorize`.
-- For verbose mode, run `inspektre-cli authorize -v`.
+ARGUMENTS
+  COMMAND  command to show help for
 
-## Reauthorize
-Reauthroize command is used to refresh device authorization and extending the device authorization.
-- To reauthorize, run `inspektre-cli reauthorize`.
-- For Verbose, run `inspektre-cli reauthorize -v`.
-
-## Environment Variables
-- In order to use Inspektre `CLI`, Please ensure that an environment variable `CLIENT_ID` is set.
-- You will be able find the `CLIENT_ID` under your account at `https://app.inspektre.io/app/account`.
-
-
-##  Development
-- When bumping cli `version`, Please change it in the package.json `manifest` file.
-- This entry in the manifestis used to get the `version` into the CLI Client.
-
-## Builds
-In order to generate binaries for `Mac OS X` or`Windows` or `Linux`, Vercel `pkg` is required.
-
-With Yarn
-```
-yarn global add pkg
+OPTIONS
+  --all  see all commands in CLI
 ```
 
-With NPM
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
+
+## `inspektre init`
+
+initialize inspektre
+
 ```
-npm i -g pkg
+USAGE
+  $ inspektre init
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose  Verbose output
+
+EXAMPLE
+  $ inspektre init
 ```
 
-## Typical Severity
-- Critical, High, Medium, Low, Very Low
+_See code: [src/commands/init.ts](https://github.com/inspektre/inspektre/blob/v3.3.20/src/commands/init.ts)_
 
-## Likelihood of Attack
-- High, Low, Medium
+## `inspektre login`
+
+Login to inspektre CLI
+
+```
+USAGE
+  $ inspektre login
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose  Verbose output
+
+EXAMPLE
+  $ inspektre login
+```
+
+_See code: [src/commands/login.ts](https://github.com/inspektre/inspektre/blob/v3.3.20/src/commands/login.ts)_
+<!-- commandsstop -->
